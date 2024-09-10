@@ -1,17 +1,39 @@
 const dotenv = require("dotenv");
 const { default: mongoose } = require("mongoose");
-
-dotenv.config();
-
 const app = require("./app");
 
-const port = +process.env.PORT;
+// Load env
+const productionMode = process.env.NODE_ENV === "production";
+if (!productionMode) {
+  dotenv.config();
+}
 
-(async () => {
-  await mongoose.connect(process.env.MONGO_URI);
-  console.log("mongodb connected.");
-})();
+//* Database connection
+async function connectToDB() {
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log(`MongoDB Connected: ${mongoose.connection.host}`);
+  } catch (error) {
+    console.error(`Error connecting to MongoDB: ${error}`);
+    process.exit(1);
+  }
+}
 
-app.listen(port, () => {
-  console.log(`server running on port ${port}`);
-});
+// Start app
+async function startServer() {
+  const port = +process.env.PORT || 4000;
+  app.listen(port, () => {
+    console.log(
+      `Server running in ${
+        productionMode ? "production" : "development"
+      } mode on port ${port}`
+    );
+  });
+}
+
+async function run() {
+  await connectToDB();
+  await startServer();
+}
+
+run();

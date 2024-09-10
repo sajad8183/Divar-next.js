@@ -1,28 +1,29 @@
 {
-  "name": "backend",
+  "name": "divar-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "divar api - sabzlearn",
   "main": "server.js",
   "scripts": {
-    "dev": "node server.js"
+    "dev": "nodemon server.js",
+    "start": "node server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "divar",
+    "sabzlearn"
+  ],
+  "author": "AliZ",
+  "license": "MIT",
   "dependencies": {
-    "bcrypt": "^5.1.0",
-    "body-parser": "^1.20.1",
-    "cors": "^2.8.5",
-    "dotenv": "^16.0.3",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.5",
     "express": "^4.18.2",
-    "fastest-validator": "^1.15.0",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.6.5",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.2.0",
     "multer": "^1.4.5-lts.1",
-    "nodemailer": "^6.8.0",
-    "request": "^2.88.2"
+    "swagger-ui-express": "^5.0.0",
+    "yup": "^1.3.3"
   },
   "devDependencies": {
-    "nodemon": "^2.0.20"
+    "nodemon": "^3.1.0"
   }
 }

@@ -1,0 +1,2214 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "< SabzLearn - Divar API 💚 >",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "components": {
+    "securitySchemes": {
+      "Authorization": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "scheme": "bearer",
+        "in": "header",
+        "description": "User token for authentication: **Bearer [user_token]**"
+      }
+    }
+  },
+  "paths": {
+    "/v1/auth/send": {
+      "post": {
+        "tags": ["Auth 🔐"],
+        "summary": "Send OTP to validate phone number - Default OTP: 1111",
+        "description": "Default OTP: 1111",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "phone": {
+                    "type": "string",
+                    "example": "09123334444"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OTP sent"
+          },
+          "400": {
+            "description": "phone number is not valid"
+          }
+        }
+      }
+    },
+    "/v1/auth/verify": {
+      "post": {
+        "tags": ["Auth 🔐"],
+        "summary": "verify the phone number and login/register",
+        "description": "",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "phone": {
+                    "type": "string",
+                    "example": "09123334444"
+                  },
+                  "otp": {
+                    "type": "string",
+                    "example": "1111"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "user logged in successfully"
+          },
+          "201": {
+            "description": "user registered successfully"
+          },
+          "400": {
+            "description": "Invalid OTP / Invalid body data"
+          }
+        }
+      }
+    },
+    "/v1/auth/me": {
+      "get": {
+        "tags": ["Auth 🔐"],
+        "summary": "Get user's data with token",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "description": "",
+
+        "responses": {
+          "200": {
+            "description": "user data will be returned"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/v1/support/articles": {
+      "get": {
+        "tags": ["Support 📝"],
+        "summary": "Get all articles + pagination",
+        "description": "",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "number"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Articles will be sent"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Support 📝"],
+        "summary": "Create a new Support Article",
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "categories": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": ["65dfae5ab52df009d58c8739"]
+                  },
+                  "title": {
+                    "type": "string",
+                    "example": "Article title"
+                  },
+                  "body": {
+                    "type": "string",
+                    "example": "Article content"
+                  },
+                  "shortName": {
+                    "type": "string",
+                    "example": "article-short-name"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "one of the parameters is not valid"
+          },
+          "401": {
+            "description": "Admin Token is not valid"
+          }
+        }
+      }
+    },
+    "/v1/support/category-articles": {
+      "get": {
+        "tags": ["Support 📝"],
+        "summary": "Get all Categories + articles",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Categories and Articles will be sent"
+          }
+        }
+      }
+    },
+    "/v1/support/articles/search": {
+      "get": {
+        "tags": ["Support 📝"],
+        "summary": "Search in all articles + pagination",
+        "description": "",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "number"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "number"
+          },
+          {
+            "name": "s",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Searched articles will be sent"
+          }
+        }
+      }
+    },
+    "/v1/support/articles/{articleId}": {
+      "get": {
+        "tags": ["Support 📝"],
+        "summary": "Get a single article",
+        "description": "",
+        "parameters": [
+          {
+            "name": "articleId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Article will be sent"
+          },
+          "404": {
+            "description": "Article not found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Support 📝"],
+        "summary": "Edit an article",
+        "description": "",
+        "parameters": [
+          {
+            "name": "articleId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "categories": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": ["65dfae5ab52df009d58c8739"]
+                  },
+                  "title": {
+                    "type": "string",
+                    "example": "Article title"
+                  },
+                  "body": {
+                    "type": "string",
+                    "example": "Article content"
+                  },
+                  "shortName": {
+                    "type": "string",
+                    "example": "article-short-name"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Edited successfully"
+          },
+          "400": {
+            "description": "one of the parameters is not valid"
+          },
+          "401": {
+            "description": "Admin Token is not valid"
+          },
+          "404": {
+            "description": "Article not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Support 📝"],
+        "summary": "Remove an article",
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "articleId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Edited successfully"
+          },
+          "401": {
+            "description": "Admin Token is not valid"
+          },
+          "404": {
+            "description": "Article not found"
+          }
+        }
+      }
+    },
+    "/v1/support/categories": {
+      "get": {
+        "tags": ["Support 📝"],
+        "summary": "Get all article categories",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "All categories will be sent"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Support 📝"],
+        "summary": "Create a new article category",
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "دستگاه های دیجیتال"
+                  },
+                  "shortName": {
+                    "type": "string",
+                    "example": "digitals"
+                  },
+                  "pic": {
+                    "type": "file",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    },
+                    "required": true,
+                    "description": "Select image files to upload"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "one of the parameters is not valid"
+          },
+          "401": {
+            "description": "Admin Token is not valid"
+          }
+        }
+      }
+    },
+    "/v1/support/categories/{categoryId}": {
+      "put": {
+        "tags": ["Support 📝"],
+        "summary": "Edit an article category",
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "دستگاه های دیجیتال"
+                  },
+                  "shortName": {
+                    "type": "string",
+                    "example": "digitals"
+                  },
+                  "pic": {
+                    "type": "file",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    },
+                    "required": true,
+                    "description": "Select image files to upload"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Edited successfully"
+          },
+          "400": {
+            "description": "one of the parameters is not valid"
+          },
+          "401": {
+            "description": "Admin Token is not valid"
+          },
+          "404": {
+            "description": "Category not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Support 📝"],
+        "summary": "Delete an article category",
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted successfully"
+          },
+          "401": {
+            "description": "Admin Token is not valid"
+          },
+          "404": {
+            "description": "Category not found"
+          }
+        }
+      }
+    },
+    "/v1/support/categories/{categoryId}/articles": {
+      "get": {
+        "tags": ["Support 📝"],
+        "summary": "Get all articles of a categories",
+        "description": "",
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "number"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Articles will be sent"
+          },
+          "404": {
+            "description": "Category not found"
+          }
+        }
+      }
+    },
+
+    "/v1/category/": {
+      "get": {
+        "tags": ["Category 📁"],
+        "summary": "Get all categories",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "All categories will be returned"
+          }
+        }
+      },
+      "postt": {
+        "tags": ["Category 📁"],
+        "summary": "Create a new category",
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "example": "Title Text"
+                  },
+                  "slug": {
+                    "example": "title-slug-text"
+                  },
+                  "parent": {
+                    "example": "parentCategoryId"
+                  },
+                  "description": {
+                    "example": "Description about category"
+                  },
+                  "icon": {
+                    "type": "file",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    },
+                    "required": true,
+                    "description": "Select image files to upload"
+                  },
+                  "filters": {
+                    "type": "object",
+                    "example": [
+                      {
+                        "name": "انتخاب 3",
+                        "description": "این یک فیلد دراپ داون تست است",
+                        "type": "range",
+                        "slug": "test_slug1",
+                        "min": 1000,
+                        "max": 1000000,
+                        "required": true
+                      },
+                      {
+                        "name": "تمایل به معاوضه",
+                        "description": "فیلد چک باکس تست",
+                        "slug": "test_slug2",
+                        "type": "checkbox",
+                        "required": true
+                      },
+                      {
+                        "name": "وضعیت کالا",
+                        "description": "فیلد دراپ داون تست",
+                        "slug": "test_slug3",
+                        "type": "radio",
+                        "options": ["نو", "کهنه", "تعمیری"],
+                        "required": true
+                      },
+                      {
+                        "name": "وضعیت کالا",
+                        "description": "فیلد دراپ داون تست",
+                        "slug": "test_slug4",
+                        "type": "selectbox",
+                        "options": ["نو", "کهنه", "تعمیری"],
+                        "required": true
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Category created"
+          },
+          "400": {
+            "description": "one of the parameters is not valid"
+          },
+          "401": {
+            "description": "Admin Token is not valid"
+          }
+        }
+      }
+    },
+    "/v1/category/{categoryId}": {
+      "putt": {
+        "tags": ["Category 📁"],
+        "summary": "Edit a category",
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "example": "Title Text"
+                  },
+                  "slug": {
+                    "example": "title-slug-text"
+                  },
+                  "parent": {
+                    "example": "parentCategoryId"
+                  },
+                  "description": {
+                    "example": "Description about category"
+                  },
+                  "icon": {
+                    "type": "file",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    },
+                    "required": true,
+                    "description": "Select image files to upload"
+                  },
+                  "filters": {
+                    "type": "object",
+                    "example": [
+                      {
+                        "name": "انتخاب 3",
+                        "description": "این یک فیلد دراپ داون تست است",
+                        "slug": "test_slug1",
+                        "type": "range",
+                        "min": 1000,
+                        "max": 1000000,
+                        "required": true
+                      },
+                      {
+                        "name": "تمایل به معاوضه",
+                        "description": "فیلد چک باکس تست",
+                        "slug": "test_slug2",
+                        "type": "checkbox",
+                        "required": true
+                      },
+                      {
+                        "name": "وضعیت کالا",
+                        "description": "فیلد دراپ داون تست",
+                        "slug": "test_slug3",
+                        "type": "radio",
+                        "options": ["نو", "کهنه", "تعمیری"],
+                        "required": true
+                      },
+                      {
+                        "name": "وضعیت کالا",
+                        "description": "فیلد دراپ داون تست",
+                        "slug": "test_slug4",
+                        "type": "selectbox",
+                        "options": ["نو", "کهنه", "تعمیری"],
+                        "required": true
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Edited successfully"
+          },
+          "400": {
+            "description": "one of the parameters is not valid"
+          },
+          "401": {
+            "description": "Admin Token is not valid"
+          },
+          "404": {
+            "description": "Category not found"
+          }
+        }
+      },
+      "deletee": {
+        "tags": ["Category 📁"],
+        "summary": "Remove a category",
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted successfully"
+          },
+          "401": {
+            "description": "Admin Token is not valid"
+          },
+          "404": {
+            "description": "Category not found"
+          }
+        }
+      }
+    },
+    "/v1/category/sub": {
+      "get": {
+        "tags": ["Sub Category 📂"],
+        "summary": "Get all sub categories",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "All sub categories will be returned"
+          }
+        }
+      },
+      "postt": {
+        "tags": ["Sub Category 📂"],
+        "summary": "Create a sub category",
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "example": "Title Text"
+                  },
+                  "slug": {
+                    "example": "title-slug-text"
+                  },
+                  "parent": {
+                    "example": "parentCategoryId"
+                  },
+                  "description": {
+                    "example": "Description about category"
+                  },
+                  "productFields": {
+                    "example": [
+                      {
+                        "name": "author name",
+                        "description": "text field",
+                        "slug": "test_slug1",
+                        "type": "text",
+                        "required": true
+                      },
+                      {
+                        "name": "انتخاب 3",
+                        "description": "این یک فیلد دراپ داون تست است",
+                        "slug": "test_slug2",
+                        "type": "number",
+                        "min": 1000,
+                        "max": 1000000,
+                        "required": true
+                      },
+                      {
+                        "name": "لینک وبسایت",
+                        "description": "text field",
+                        "slug": "test_slug3",
+                        "type": "link",
+                        "required": true
+                      },
+                      {
+                        "name": "تمایل به معاوضه",
+                        "description": "فیلد چک باکس تست",
+                        "slug": "test_slug4",
+                        "type": "checkbox",
+                        "required": true
+                      },
+                      {
+                        "name": "وضعیت کالا",
+                        "description": "فیلد دراپ داون تست",
+                        "slug": "test_slug5",
+                        "type": "radio",
+                        "options": ["نو", "کهنه", "تعمیری"],
+                        "required": true
+                      },
+                      {
+                        "name": "وضعیت کالا",
+                        "description": "فیلد دراپ داون تست",
+                        "slug": "test_slug6",
+                        "type": "selectbox",
+                        "options": ["نو", "کهنه", "تعمیری"],
+                        "required": true
+                      }
+                    ]
+                  },
+                  "filters": {
+                    "example": [
+                      {
+                        "name": "انتخاب 3",
+                        "description": "این یک فیلد دراپ داون تست است",
+                        "slug": "test_slug1",
+                        "type": "range",
+                        "min": 1000,
+                        "max": 1000000,
+                        "required": true
+                      },
+                      {
+                        "name": "تمایل به معاوضه",
+                        "description": "فیلد چک باکس تست",
+                        "slug": "test_slug2",
+                        "type": "checkbox",
+                        "required": true
+                      },
+                      {
+                        "name": "وضعیت کالا",
+                        "description": "فیلد دراپ داون تست",
+                        "slug": "test_slug3",
+                        "type": "radio",
+                        "options": ["نو", "کهنه", "تعمیری"],
+                        "required": true
+                      },
+                      {
+                        "name": "وضعیت کالا",
+                        "description": "فیلد دراپ داون تست",
+                        "slug": "test_slug4",
+                        "type": "selectbox",
+                        "options": ["نو", "کهنه", "تعمیری"],
+                        "required": true
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "SubCategory created"
+          },
+          "400": {
+            "description": "one of the parameters is not valid"
+          },
+          "401": {
+            "description": "Admin Token is not valid"
+          }
+        }
+      }
+    },
+    "/v1/category/sub/{categoryId}": {
+      "get": {
+        "tags": ["Sub Category 📂"],
+        "summary": "Get a sub category",
+        "description": "",
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SubCategory will be returned"
+          },
+          "404": {
+            "description": "SubCategory not found"
+          }
+        }
+      },
+      "putt": {
+        "tags": ["Sub Category 📂"],
+        "summary": "Edit a sub category",
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "example": "Title Text"
+                  },
+                  "slug": {
+                    "example": "title-slug-text"
+                  },
+                  "parent": {
+                    "example": "parentCategoryId"
+                  },
+                  "description": {
+                    "example": "Description about category"
+                  },
+                  "productFields": {
+                    "example": [
+                      {
+                        "name": "author name",
+                        "description": "text field",
+                        "slug": "test_slug1",
+                        "type": "text",
+                        "required": true
+                      },
+                      {
+                        "name": "انتخاب 3",
+                        "description": "این یک فیلد دراپ داون تست است",
+                        "slug": "test_slug2",
+                        "type": "number",
+                        "min": 1000,
+                        "max": 1000000,
+                        "required": true
+                      },
+                      {
+                        "name": "لینک وبسایت",
+                        "description": "text field",
+                        "slug": "test_slug3",
+                        "type": "link",
+                        "required": true
+                      },
+                      {
+                        "name": "تمایل به معاوضه",
+                        "description": "فیلد چک باکس تست",
+                        "slug": "test_slug4",
+                        "type": "checkbox",
+                        "required": true
+                      },
+                      {
+                        "name": "وضعیت کالا",
+                        "description": "فیلد دراپ داون تست",
+                        "slug": "test_slug5",
+                        "type": "radio",
+                        "options": ["نو", "کهنه", "تعمیری"],
+                        "required": true
+                      },
+                      {
+                        "name": "وضعیت کالا",
+                        "description": "فیلد دراپ داون تست",
+                        "slug": "test_slug6",
+                        "type": "selectbox",
+                        "options": ["نو", "کهنه", "تعمیری"],
+                        "required": true
+                      }
+                    ]
+                  },
+                  "filters": {
+                    "example": [
+                      {
+                        "name": "انتخاب 3",
+                        "description": "این یک فیلد دراپ داون تست است",
+                        "slug": "test_slug1",
+                        "type": "range",
+                        "min": 1000,
+                        "max": 1000000,
+                        "required": true
+                      },
+                      {
+                        "name": "تمایل به معاوضه",
+                        "description": "فیلد چک باکس تست",
+                        "slug": "test_slug2",
+                        "type": "checkbox",
+                        "required": true
+                      },
+                      {
+                        "name": "وضعیت کالا",
+                        "description": "فیلد دراپ داون تست",
+                        "slug": "test_slug3",
+                        "type": "radio",
+                        "options": ["نو", "کهنه", "تعمیری"],
+                        "required": true
+                      },
+                      {
+                        "name": "وضعیت کالا",
+                        "description": "فیلد دراپ داون تست",
+                        "slug": "test_slug4",
+                        "type": "selectbox",
+                        "options": ["نو", "کهنه", "تعمیری"],
+                        "required": true
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Edited successfully"
+          },
+          "400": {
+            "description": "one of the parameters is not valid"
+          },
+          "401": {
+            "description": "Admin Token is not valid"
+          },
+          "404": {
+            "description": "SubCategory not found"
+          }
+        }
+      },
+      "deletee": {
+        "tags": ["Sub Category 📂"],
+        "summary": "Remove a sub category",
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted successfully"
+          },
+          "401": {
+            "description": "Admin Token is not valid"
+          },
+          "404": {
+            "description": "SubCategory not found"
+          }
+        }
+      }
+    },
+    "/v1/post/{categoryId}": {
+      "post": {
+        "tags": ["Post 🛒"],
+        "summary": "Create a new post",
+        "description": "There can be more fields based on the selected category and they need to be sent",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "city": {
+                    "type": "string",
+                    "example": "301"
+                  },
+                  "neighborhood": {
+                    "type": "string",
+                    "example": "23"
+                  },
+                  "title": {
+                    "type": "string",
+                    "example": "Post title"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Post description"
+                  },
+                  "price": {
+                    "type": "integer",
+                    "example": 100000
+                  },
+                  "exchange": {
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "map": {
+                    "type": "object",
+                    "properties": {
+                      "x": {
+                        "type": "string",
+                        "example": "2222"
+                      },
+                      "y": {
+                        "type": "string",
+                        "example": "3333"
+                      }
+                    }
+                  },
+                  "categoryFields": {
+                    "type": "object"
+                  },
+                  "pics": {
+                    "name": "pics",
+                    "in": "formData",
+                    "type": "array",
+                    "required": true,
+                    "description": "Select image files to upload",
+                    "items": {
+                      "type": "file",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "one of the parameters is not valid"
+          },
+          "401": {
+            "description": "Admin Token is not valid"
+          },
+          "404": {
+            "description": "Category not found"
+          }
+        }
+      }
+    },
+    "/v1/post/": {
+      "get": {
+        "tags": ["Post 🛒"],
+        "summary": "Get all published posts",
+        "description": "",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "number"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "number"
+          },
+          {
+            "name": "categoryId",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "city",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "price",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "exchange",
+            "in": "query",
+            "type": "boolean"
+          },
+          {
+            "name": "neighborhood",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "exchange",
+            "in": "query",
+            "type": "checkbox"
+          },
+          {
+            "name": "filters",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Posts will be returned"
+          }
+        }
+      }
+    },
+    "/v1/post/all": {
+      "get": {
+        "tags": ["Post 🛒"],
+        "summary": "Get all posts",
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "number"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "number"
+          },
+          {
+            "name": "categoryId",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "city",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "price",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "exchange",
+            "in": "query",
+            "type": "boolean"
+          },
+          {
+            "name": "neighborhood",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "exchange",
+            "in": "query",
+            "type": "checkbox"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "filters",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Posts will be returned"
+          }
+        }
+      }
+    },
+    "/v1/post/{postId}": {
+      "get": {
+        "tags": ["Post 🛒"],
+        "summary": "Get a single post",
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Post will be returned"
+          },
+          "404": {
+            "description": "Post not found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Post 🛒"],
+        "summary": "Edit a post",
+        "description": "There can be more fields based on the selected category and they need to be sent",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "city": {
+                    "type": "string",
+                    "example": "301"
+                  },
+                  "neighborhood": {
+                    "type": "string",
+                    "example": "23"
+                  },
+                  "title": {
+                    "type": "string",
+                    "example": "Post title"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Post description"
+                  },
+                  "price": {
+                    "type": "integer",
+                    "example": 100000
+                  },
+                  "exchange": {
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "map": {
+                    "type": "object",
+                    "properties": {
+                      "x": {
+                        "type": "string",
+                        "example": "2222"
+                      },
+                      "y": {
+                        "type": "string",
+                        "example": "3333"
+                      }
+                    }
+                  },
+                  "categoryFields": {
+                    "type": "object"
+                  },
+                  "pics": {
+                    "name": "pics",
+                    "in": "formData",
+                    "type": "array",
+                    "required": true,
+                    "description": "Select image files to upload",
+                    "items": {
+                      "type": "file",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Edited successfully"
+          },
+          "400": {
+            "description": "one of the parameters is not valid"
+          },
+          "401": {
+            "description": "Admin Token is not valid"
+          },
+          "404": {
+            "description": "Post not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Post 🛒"],
+        "summary": "Remove a post",
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Post Deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized to delete post"
+          },
+          "404": {
+            "description": "Post not found"
+          }
+        }
+      }
+    },
+    "/v1/post/{postId}/status": {
+      "put": {
+        "tags": ["Post 🛒"],
+        "summary": "change the status by admin",
+        "description": "pending, published, rejected",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "example": "published"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Edited successfully"
+          },
+          "400": {
+            "description": "one of the parameters is not valid"
+          },
+          "401": {
+            "description": "Admin Token is not valid"
+          },
+          "404": {
+            "description": "Post not found"
+          }
+        }
+      }
+    },
+    "/v1/user/posts": {
+      "get": {
+        "tags": ["User 👤"],
+        "summary": "Get all user's posts",
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "number"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User's posts will be returned"
+          },
+          "401": {
+            "description": "Token is not valid"
+          }
+        }
+      }
+    },
+    "/v1/location/": {
+      "get": {
+        "tags": ["Location 🗺"],
+        "summary": "Get all locations",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "cities, provinces, and neighborhoods will be returned"
+          }
+        }
+      }
+    },
+    "/v1/user/identity": {
+      "post": {
+        "tags": ["User 👤"],
+        "summary": "Verify user's identity",
+        "description": "last 2 digits of nationalCode should be equal to last 2 digits of phone number",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nationalCode": {
+                    "example": "0022888444"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Identity verified"
+          },
+          "400": {
+            "description": "Mobile number and national code do not match(last two digits should be equal)"
+          },
+          "401": {
+            "description": "Token is not valid"
+          }
+        }
+      }
+    },
+    "/v1/user/bookmarks": {
+      "get": {
+        "tags": ["User 👤"],
+        "summary": "Get all user's bookmarks",
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "number"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User's bookmarks will be returned"
+          },
+          "401": {
+            "description": "Token is not valid"
+          }
+        }
+      }
+    },
+    "/v1/user/notes": {
+      "get": {
+        "tags": ["User 👤"],
+        "summary": "Get all nser's notes",
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "number"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All user's notes will returned"
+          },
+          "401": {
+            "description": " Token is not valid"
+          }
+        }
+      }
+    },
+    "/v1/bookmark/{postId}": {
+      "post": {
+        "tags": ["Bookmark 📑"],
+        "summary": "Add bookmark",
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Bookmarked successfully"
+          },
+          "401": {
+            "description": "Token is not valid"
+          },
+          "404": {
+            "description": "Post not found"
+          }
+        }
+      },
+
+      "delete": {
+        "tags": ["Bookmark 📑"],
+        "summary": "Remove bookmark",
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Bookmark deleted successfully"
+          },
+          "401": {
+            "description": "Token is not valid"
+          },
+          "404": {
+            "description": "Bookmark not found"
+          }
+        }
+      }
+    },
+    "/v1/note/": {
+      "post": {
+        "tags": ["Note 📓"],
+        "summary": "Add a new note",
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "postId": {
+                    "example": "PostId"
+                  },
+                  "content": {
+                    "example": "Some notes about this post"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Edited successfully"
+          },
+          "400": {
+            "description": "one of the parameters is not valid"
+          },
+          "401": {
+            "description": "Token is not valid"
+          }
+        }
+      }
+    },
+    "/v1/note/{noteId}": {
+      "get": {
+        "tags": ["Note 📓"],
+        "summary": "Get a single note",
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "noteId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "note will be returned"
+          },
+          "401": {
+            "description": "Token is not valid"
+          },
+          "404": {
+            "description": "Note not found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Note 📓"],
+        "summary": "Edit a note",
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "noteId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "content": {
+                    "example": "Some notes about this post"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Edited successfully"
+          },
+          "400": {
+            "description": "one of the parameters is not valid"
+          },
+          "401": {
+            "description": "Token is not valid"
+          },
+          "404": {
+            "description": "Note not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Note 📓"],
+        "summary": "Remove a note",
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "noteId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted successfully"
+          },
+          "401": {
+            "description": "Token is not valid"
+          },
+          "404": {
+            "description": "Note not found"
+          }
+        }
+      }
+    },
+    "/v1/social/": {
+      "get": {
+        "tags": ["Social 🌐"],
+        "summary": "Get all socials",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Socials will be returned"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Social 🌐"],
+        "summary": "Add a new social",
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "icon": {
+                    "type": "file",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    },
+                    "required": true,
+                    "description": "Select image files to upload"
+                  },
+                  "name": {
+                    "example": "instagram"
+                  },
+                  "link": {
+                    "example": "https://instagram.com/some_id"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "one of the parameters is not valid"
+          },
+          "401": {
+            "description": "Admin Token is not valid"
+          }
+        }
+      }
+    },
+    "/v1/social/{socialId}": {
+      "put": {
+        "tags": ["Social 🌐"],
+        "summary": "Edit a social",
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "socialId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "icon": {
+                    "type": "file",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    },
+                    "required": true,
+                    "description": "Select image files to upload"
+                  },
+                  "name": {
+                    "example": "instagram"
+                  },
+                  "link": {
+                    "example": "https://instagram.com/some_id"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Edited successfully"
+          },
+          "400": {
+            "description": "one of the parameters is not valid"
+          },
+          "401": {
+            "description": "Admin Token is not valid"
+          },
+          "404": {
+            "description": "Social not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Social 🌐"],
+        "summary": "Remove a social",
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "socialId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted successfully"
+          },
+          "401": {
+            "description": "Admin Token is not valid"
+          },
+          "404": {
+            "description": "Social not found"
+          }
+        }
+      }
+    },
+    "/v1/users": {
+      "get": {
+        "tags": ["Dashboard 📈"],
+        "summary": "Get all users",
+        "description": "",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "number"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "number"
+          }
+        ],
+
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Users will be sent"
+          },
+          "401": {
+            "description": "Admin Token is not valid"
+          }
+        }
+      }
+    },
+    "/v1/users/{userId}": {
+      "put": {
+        "tags": ["Dashboard 📈"],
+        "summary": "change user role",
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "role": {
+                    "example": "ADMIN or USER"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User role changed successfully"
+          },
+          "400": {
+            "description": "Role can only be ADMIN or USER"
+          },
+          "401": {
+            "description": "Admin Token is not valid"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Dashboard 📈"],
+        "summary": "Remove user and his/her posts",
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User removed successfully"
+          },
+          "401": {
+            "description": "Admin Token is not valid"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/v1/users/ban/{userId}": {
+      "post": {
+        "tags": ["Dashboard 📈"],
+        "summary": "Ban user and remove his/her account and posts",
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User banned successfully"
+          },
+          "401": {
+            "description": "Admin Token is not valid"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/v1/dashboard": {
+      "get": {
+        "tags": ["Dashboard 📈"],
+        "summary": "Get dashboard data",
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "dashboard data will be sent"
+          },
+          "401": {
+            "description": "Admin Token is not valid"
+          }
+        }
+      }
+    }
+  }
+}

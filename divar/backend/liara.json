@@ -1,0 +1,10 @@
+{
+  "app": "divarapi",
+  "port": 4000,
+  "disks": [
+    {
+      "name": "divar-disk",
+      "mountTo": "public"
+    }
+  ]
+}
