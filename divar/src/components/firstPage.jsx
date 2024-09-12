@@ -61,7 +61,7 @@ const FirstPage = async () => {
                                         {data.splice(0, 10).map((item, index) => {
                                             return (
                                                 <li className="basis-1/12 test" key={index}>
-                                                    <Link href={item.href}>{item.name}</Link>
+                                                    <Link href={"home/"+item.href}>{item.name}</Link>
                                                 </li>
                                             )
                                         })}
