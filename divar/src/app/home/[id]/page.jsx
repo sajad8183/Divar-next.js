@@ -1,6 +1,6 @@
 const test = () => {
     return (
-        <div>
+        <div className="basis-10/12 border-2 border-zinc-300 h-screen">
             test
         </div>
     );
