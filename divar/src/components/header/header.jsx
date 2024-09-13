@@ -9,7 +9,7 @@ import { IoMdAddCircle } from "react-icons/io";
 import logo from "../../public/image/image.png"
 const Header = () => {
     return (
-        <header className="border-b-2 border-zinc-200">
+        <header className="border-b-2 border-zinc-200 fixed w-full bg-white top-0">
             {/* for desktop */}
             <nav className="lg:block hidden">
                 <div className="m-auto">
@@ -68,7 +68,7 @@ const Header = () => {
                 </button>
                 </div>
             </section>
-            <nav className="fixed bottom-0 w-full py-4 lg:hidden block text-[12px] bg-zinc-100">
+            <nav className="fixed bottom-0 w-full py-2 lg:hidden block text-[12px] bg-zinc-100">
                 <ul className="flex items-center justify-evenly gap-8">
                     <li className="flex items-center gap-2 sm:flex-row flex-col">
                         <span>دیوار</span>
