@@ -1,9 +1,9 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { FaSearch } from "react-icons/fa";
 import Link from "next/link";
+import { getLocation } from "@/shared/sharedApi";
 
 const CitySearch = () => {
     const [selectSity, setSelectSity] = useState([]);
@@ -12,19 +12,17 @@ const CitySearch = () => {
     const handleChange = (e) => {
         const query = e.target.value.toLowerCase();
         const filteredCities = tempArr.filter(data => 
-            data.name?.toLowerCase().includes(query) && query !== ''
+            data.name?.toLowerCase().startsWith(query) && query !== ''
         );
         setSelectSity(filteredCities);
     }
-
+ 
     useEffect(() => {
-        axios.get('http://localhost:4000/api/cities')
-            .then(res => {
-                setTempArr(res.data);
-            })
-            .catch(err => {
-                console.error("Error fetching cities", err);
-            });
+
+        getLocation().then(cities=>{
+            setTempArr(cities);
+        })
+
     }, []);
 
     return (
@@ -39,11 +37,11 @@ const CitySearch = () => {
                     onChange={handleChange}
                 />
             </div>
-            <div className="bg-zinc-100 absolute w-full mt-2 rounded-lg">
+            <div className="bg-zinc-100 absolute w-full mt-2 rounded-lg max-h-52 overflow-y-scroll">
                 <ul>
                     {selectSity.map((data, index) => (
                         <li className="hover:bg-zinc-200" key={index}>
-                            <Link href={'home/'+data.href} className="block p-2">{data.name}</Link>
+                            <Link href={'home/'+data.id} className="block p-2">{data.name}</Link>
                         </li>
                     ))}
                 </ul>

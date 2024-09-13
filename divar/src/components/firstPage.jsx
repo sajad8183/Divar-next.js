@@ -5,7 +5,7 @@ import img2 from '../public/image/footerImg/image.png'
 import img3 from '../public/image/footerImg/New Project.png'
 
 import Link from "next/link";
-import { FaSearch, FaTwitter } from "react-icons/fa";
+import { FaTwitter } from "react-icons/fa";
 import { AiFillInstagram } from "react-icons/ai";
 import { SiAparat } from "react-icons/si";
 import { FaLinkedin } from "react-icons/fa6";
@@ -14,8 +14,10 @@ import { getPopularCity } from "@/shared/sharedApi";
 import CitySearch from "./citySearch";
 
 const FirstPage = async () => {
-    const data = await getPopularCity();
-
+    const data = await getPopularCity().then(city=>{
+        return city;
+    })
+    
     return (
         <div className="flex justify-center">
             <div className="w-[566px]">
@@ -52,18 +54,14 @@ const FirstPage = async () => {
                                 </div>
                             </header>
                             <section className="border-b-[1px] border-zinc-300 my-4 mx-4 pb-3">
-                                {/* <div className="flex items-center w-full border-solid border-2 my-8 rounded-md">
-                                    <FaSearch className="mx-2 w-8 h-5 fill-zinc-400" />
-                                    <input type="search" className="w-full py-3 px-2 border-0 outline-none" placeholder="جست و جو شهر..." />
-                                </div> */}
                                 <CitySearch/>
                                 <div className="mt-8">
                                     <h1 className="text-zinc-800 font-bold text-center xl:text-start">شهرهای پربازدید</h1>
                                     <ul className="flex flex-row flex-wrap items-center justify-center sm:gap-16 gap-12 mx-6 my-8">
-                                        {data.splice(0, 10).map((item, index) => {
+                                        {data.sort(() => Math.random() - 0.5).slice(0, 10).map((item, index) => {
                                             return (
                                                 <li className="basis-1/12 test" key={index}>
-                                                    <Link href={"home/"+item.href}>{item.name}</Link>
+                                                    <Link href={"home/"+item.id}>{item.name}</Link>
                                                 </li>
                                             )
                                         })}
