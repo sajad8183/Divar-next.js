@@ -13,6 +13,9 @@
 
 body {
   font-family: "iranSans";
+  font-size: 13px;
 }
-
+.sidbar_main::-webkit-scrollbar{
+  width: 0;
+}
 .test{}

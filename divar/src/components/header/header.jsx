@@ -9,7 +9,7 @@ import { IoMdAddCircle } from "react-icons/io";
 import logo from "../../public/image/image.png"
 const Header = () => {
     return (
-        <header>
+        <header className="border-b-2 border-zinc-200">
             {/* for desktop */}
             <nav className="lg:block hidden">
                 <div className="m-auto">
