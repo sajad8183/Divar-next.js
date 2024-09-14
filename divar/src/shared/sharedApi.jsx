@@ -22,8 +22,14 @@ const getPopularCity = async () => {
     return popularCityArr;
 }
 
+const getCityPost = async (cityId) =>{
+    const data = await fetch(`${staticUrl}post/?city=${cityId}`,{cache:"no-store"})
+    return data.json();
+}
+
 
 export {
     getPopularCity,
-    getLocation
+    getLocation,
+    getCityPost
 };

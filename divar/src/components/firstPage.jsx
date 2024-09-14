@@ -57,10 +57,11 @@ const FirstPage = async () => {
                                 <CitySearch/>
                                 <div className="mt-8">
                                     <h1 className="text-zinc-800 font-bold text-center xl:text-start">شهرهای پربازدید</h1>
-                                    <ul className="flex flex-row flex-wrap items-center justify-center sm:gap-16 gap-12 mx-6 my-8">
+                                                                                                    {/* sm:gap-16 gap-12 */}
+                                    <ul className="flex flex-row flex-wrap items-center justify-center sm:gap-x-4 gap-y-12 gap-x-8  mx-6 my-8">
                                         {data.sort(() => Math.random() - 0.5).slice(0, 10).map((item, index) => {
                                             return (
-                                                <li className="basis-1/12 test" key={index}>
+                                                <li className="basis-2/12 test" key={index}>
                                                     <Link href={"home/"+item.id}>{item.name}</Link>
                                                 </li>
                                             )

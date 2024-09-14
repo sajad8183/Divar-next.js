@@ -94,9 +94,9 @@ const Sidbar = () => {
                             <SiAparat className="w-4 h-4 fill-zinc-500 transition-all duration-300 ease-in-out hover:fill-black" />
                         </div>
                         <div className="flex items-center justify-center pt-2 border-b-[1px] border-zinc-300 my-4 pb-3">
-                            <Image className="w-[80px] h-[80px]" width={80} height={80} src={img3} alt='img1' priority={true} />
-                            <Image className="w-[80px] h-[80px]" width={80} height={80} src={img2} alt='img1' priority={true} />
-                            <Image className="w-[80px] h-[80px]" width={80} height={80} src={img1} alt='img1' priority={true} />
+                            <Image className="w-[65px] h-[65px]" width={65} height={65} src={img3} alt='img1' priority={true} />
+                            <Image className="w-[65px] h-[65px]" width={65} height={65} src={img2} alt='img1' priority={true} />
+                            <Image className="w-[65px] h-[65px]" width={65} height={65} src={img1} alt='img1' priority={true} />
                         </div>
                     </div>
             </section>
