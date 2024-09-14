@@ -27,9 +27,14 @@ const getCityPost = async (cityId) =>{
     return data.json();
 }
 
+const getSidebarData = async () =>{
+    const data = await fetch(`${staticUrl}category`,{cache:"no-store"})
+    return data.json();
+}
 
 export {
     getPopularCity,
     getLocation,
-    getCityPost
+    getCityPost,
+    getSidebarData
 };
