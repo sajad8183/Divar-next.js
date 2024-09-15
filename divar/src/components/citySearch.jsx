@@ -41,7 +41,7 @@ const CitySearch = () => {
                 <ul>
                     {selectSity.map((data, index) => (
                         <li className="hover:bg-zinc-200" key={index}>
-                            <Link href={'home/'+data.id} className="block p-2">{data.name}</Link>
+                            <Link href={`/home/post?city=${data.id}`} className="block p-2">{data.name}</Link>
                         </li>
                     ))}
                 </ul>

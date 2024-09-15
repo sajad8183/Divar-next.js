@@ -7,11 +7,13 @@ const Item = (props) => {
         <Link href={props.hrefId} className="xl:basis-4/12 md:basis-6/12 px-2 basis-full" >
             <div className="flex w-full justify-between border-2 border-zinc-200 rounded-md p-4 shadow-md">
                 <div className="flex flex-col items-start justify-between py-2">
+                    <div className="w-40 h-12 overflow-hidden">
                     <h2 className="text-[16px] font-bold">{props.name}</h2>
+                    </div>
                     <div className="flex flex-col gap-2">
                         <span>{props.dynamicFields}</span>
                         <span>{props.price}</span>
-                        <span>یک ربع پیش در مشهد، بلوار توس</span>
+                        <span>{props.createTime}</span>
                     </div>
                 </div>
                 <div>

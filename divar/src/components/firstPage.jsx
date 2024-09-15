@@ -62,7 +62,7 @@ const FirstPage = async () => {
                                         {data.sort(() => Math.random() - 0.5).slice(0, 10).map((item, index) => {
                                             return (
                                                 <li className="basis-2/12 test" key={index}>
-                                                    <Link href={"home/"+item.id}>{item.name}</Link>
+                                                    <Link href={`/home/post?city=${item.id}`}>{item.name}</Link>
                                                 </li>
                                             )
                                         })}

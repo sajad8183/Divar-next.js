@@ -1,11 +1,16 @@
 import Item from "@/components/item/item";
+import { calcTime } from "@/funcs/funcs";
 import { getCityPost } from "@/shared/sharedApi";
 
-const test = async ({ params }) => {
+export let getCityParams = ''
 
-    let postData = await getCityPost(params.id)
+const Post = async ({ searchParams }) => {
+
+    getCityParams = searchParams.city;
+    
+    let postData = await getCityPost(searchParams.city)
         .then(res => {
-            const allData = res?.data?.posts
+            const allData = res?.data?.posts;
             return allData;
         })
 
@@ -16,12 +21,15 @@ const test = async ({ params }) => {
                 <section className="my-5 flex flex-row gap-y-4 flex-wrap">
                     {
                         postData.map((data, index) => {
+                           // console.log();
+                             
                             return <Item
                                 key={index}
-                                hrefId={`${params.id} / ${data._id}`}
+                                hrefId={`/productDetail?id=${data._id}`}
                                 name={data.title}
                                 price={data.price.toLocaleString('fa-IR')}
                                 dynamicFields={data.dynamicFields[0]?.data}
+                                createTime={calcTime(data.createdAt)}
                                 image={data.pics.length ? `https://divarapi.liara.run/${data.pics[0].path}` : 'image/item/shoes.png'}
                             />
                         })
@@ -33,4 +41,4 @@ const test = async ({ params }) => {
     );
 }
 
-export default test;
+export default Post;

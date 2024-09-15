@@ -8,7 +8,10 @@ import img1 from '../../public/image/footerImg/image copy.png'
 import img2 from '../../public/image/footerImg/image.png'
 import img3 from '../../public/image/footerImg/New Project.png'
 import { getSidebarData } from "@/shared/sharedApi";
-const Sidbar = async () => {
+import Post from "@/app/home/post/page";
+
+const Sidbar = async (props) => {
+    
     const catData = await getSidebarData()
         .then(res => {
             return res.data.categories
@@ -24,7 +27,7 @@ const Sidbar = async () => {
                             return (
                                 <div className="flex items-center w-full py-3 gap-2" key={index}>
                                     <FaCar />
-                                    <Link href={``}>{data.title}</Link>
+                                    <Link href={`/home/post?city=${props.cityUrl}/${data._id}`}>{data.title}</Link>
                                 </div>
                             )
                         })
