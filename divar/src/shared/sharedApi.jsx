@@ -28,7 +28,7 @@ const getCityPost = async (cityId) =>{
 }
 
 const getSidebarData = async () =>{
-    const data = await fetch(`${staticUrl}category`,{cache:"no-store"})
+    const data = await fetch(`${staticUrl}category`)
     return data.json();
 }
 

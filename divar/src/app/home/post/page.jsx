@@ -20,9 +20,7 @@ const Post = async ({ searchParams }) => {
             {postData.length ?
                 <section className="my-5 flex flex-row gap-y-4 flex-wrap">
                     {
-                        postData.map((data, index) => {
-                           // console.log();
-                             
+                        postData.map((data, index) => {                             
                             return <Item
                                 key={index}
                                 hrefId={`/productDetail?id=${data._id}`}
