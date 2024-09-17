@@ -8,9 +8,9 @@ import Image from "next/image";
 import img1 from '../../public/image/footerImg/image copy.png'
 import img2 from '../../public/image/footerImg/image.png'
 import img3 from '../../public/image/footerImg/New Project.png'
-import { getSidebarData } from "@/shared/sharedApi";
 import { useEffect, useState } from "react";
 import axios from "axios";
+// import { options } from "../../../backend/app";
 
 const Sidbar = (props) => {
 
@@ -29,7 +29,9 @@ const Sidbar = (props) => {
     return (
         <div className=" basis-2/12 mx-12 mt-12 pl-3 lg:block hidden">
             <section className="sidbar_main pb-24 fixed w-[16%] h-screen overflow-y-scroll">
-                <h3>دسته ها</h3>
+                <Link href={`/home/post?city=${props.cityUrl}`}>
+                    <h3>دسته ها</h3>
+                </Link>
                 <div className="border-b-2 border-zinc-200 text-gray-400">
                     {
                         catData?.map((data, index) => {
@@ -37,21 +39,23 @@ const Sidbar = (props) => {
                                 <div className="flex flex-col" key={index} >
                                     <div className="flex items-center w-full py-3 gap-2" >
                                         <FaCar />
-                                        <Link href={`/home/post?city=${props.cityUrl}/${data?._id}`} onClick={() => {setSelectIndex(index)}}>{data?.title}</Link>
+                                        <Link href={`/home/post?city=${props.cityUrl}/?categoryId=${data?._id}`} onClick={() => { setSelectIndex(index) }}>{data?.title}</Link>
                                     </div>
 
-                                    <ul className="mr-6 p-2 bg-zinc-50">
-                                        {index==selectIndex && catData[selectIndex]?.subCategories.map((da, i) => {
+                                    <ul className="mr-6 p-2 bg-zinc-50" id="ulHandler">
+
+                                        { index == selectIndex && catData[selectIndex]?.subCategories.map((da, i) => {
+                                            
                                             return (
                                                 <li className="w-full" key={i}>
                                                     <div className="hover:text-black">
-                                                        <Link href={`/home/post?city=${props.cityUrl}/${da?._id}`} onClick={() => {setSelectSubIndex(i)}} className="block py-[5px] transition-all duration-300 ease-in-out" >{da.title}</Link>
+                                                        <Link href={`/home/post?city=${props.cityUrl}/?categoryId=${da?._id}`} onClick={() => { setSelectSubIndex(i) }} className="block py-[5px] transition-all duration-300 ease-in-out" >{da.title}</Link>
                                                     </div>
                                                     <ul className="mr-6 p-2">
-                                                        {i==selectSubIndex && da?.subCategories.map((d, j) => {
+                                                        {i == selectSubIndex && catData[selectIndex]?.subCategories[selectSubIndex]?.subCategories.map((d, j) => {
                                                             return (
-                                                                <li className="w-full hover:text-black bg-zinc-50 border-r-zinc-200 border-r-2"  key={j}>
-                                                                    <Link href={`/home/post?city=${props.cityUrl}/${d?._id}`} className="block py-[5px] pr-2 transition-all duration-300 ease-in-out" >{d.title}</Link>
+                                                                <li className="w-full hover:text-black bg-zinc-50 border-r-zinc-200 border-r-2" key={j} onClick={()=>{}}>
+                                                                    <Link href={`/home/post?city=${props.cityUrl}/?categoryId=${d?._id}`} className="block py-[5px] pr-2 transition-all duration-300 ease-in-out" >{d.title}</Link>
                                                                 </li>
                                                             )
                                                         })}
@@ -67,6 +71,26 @@ const Sidbar = (props) => {
 
                 </div>
                 <div>
+
+                    {/* {console.log(catData[selectIndex]?.subCategories[selectSubIndex])
+                    } */}
+                    <form className="max-w-sm mx-auto mt-2">
+                        {
+                            catData[selectIndex]?.subCategories[selectSubIndex]?.filters.map((filter, index) => {
+                                return <select key={index} id="countries" className="bg-gray-50 border-0 border-b-2 border-zinc-300 text-gray-900 outline-none text-sm rounded-md block w-full p-2.5 ">
+                                    <option value="DE">{filter?.name}</option>
+                                    {
+                                        filter?.options.map((option,i)=>{
+                                            return <option key={i} value={i}>{option}</option>
+                                        })
+                                    }
+                                </select>
+                            })
+                        }
+                    </form>
+
+
+
                     <div className="flex items-center gap-2 py-4 px-2 border-b-2 border-zinc-200  rounded-lg hover:bg-zinc-100 ">
                         <FaChevronDown />
                         <span className="">محل</span>
