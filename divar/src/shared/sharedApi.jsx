@@ -32,9 +32,14 @@ const getSidebarData = async () =>{
     return data.json();
 }
 
+const getSinglePost = async (cityId) =>{
+    const data = await fetch(`${staticUrl}post/${cityId}`,{cache:"no-store"})
+    return data.json();
+}
 export {
     getPopularCity,
     getLocation,
     getCityPost,
-    getSidebarData
+    getSidebarData,
+    getSinglePost
 };

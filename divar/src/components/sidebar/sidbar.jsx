@@ -54,8 +54,8 @@ const Sidbar = (props) => {
                                                     <ul className="mr-6 p-2">
                                                         {i == selectSubIndex && catData[selectIndex]?.subCategories[selectSubIndex]?.subCategories.map((d, j) => {
                                                             return (
-                                                                <li className="w-full hover:text-black bg-zinc-50 border-r-zinc-200 border-r-2" key={j} onClick={()=>{}}>
-                                                                    <Link href={`/home/post?city=${props.cityUrl}/?categoryId=${d?._id}`} className="block py-[5px] pr-2 transition-all duration-300 ease-in-out" >{d.title}</Link>
+                                                                <li className="w-full hover:text-black bg-zinc-50 border-r-zinc-200 border-r-2" key={j} >
+                                                                    <Link href={`/home/post?city=${props.cityUrl}/?categoryId=${d?._id}`} onClick={()=>{}} className="block py-[5px] pr-2 transition-all duration-300 ease-in-out" >{d.title}</Link>
                                                                 </li>
                                                             )
                                                         })}

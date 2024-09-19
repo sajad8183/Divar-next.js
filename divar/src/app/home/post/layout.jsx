@@ -6,7 +6,7 @@ const Layout = ({ children }) => {
     
     return (
         <div>
-            <Header />
+            {/* <Header /> */}
             <div className="mt-8 flex flex-row">
                 <Sidbar cityUrl={getCityParams} />
                 {children}

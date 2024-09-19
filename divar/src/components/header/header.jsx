@@ -25,7 +25,7 @@ const Header = () => {
                                 <FaChevronDown />
                             </div>
                             <div className="flex items-center bg-zinc-200 rounded-md w-[80%] ">
-                                <input className="p-2 bg-transparent w-full" type="search" name="" id="" placeholder="جستجو در همه آگهی ها" />
+                                <input className="p-2 bg-transparent w-full outline-none" type="search" name="" id="" placeholder="جستجو در همه آگهی ها" />
                                 <FaSearch className="m-2 fill-zinc-400" />
                             </div>
                         </div>

@@ -16,14 +16,14 @@ const Post = async ({ searchParams }) => {
 
     return (
         <div className="lg:basis-10/12 basis-full border-r-2 border-zinc-200 h-screen mt-12">
-            <h3 className="lg:text-end text-start text-gray-500">دیوار مشهد - نیازمندی‌ های رایگان، آگهی‌های خرید، فروش نو و دست دوم و کارکرده، استخدام و خدمات</h3>
+            <h3 className="lg:text-end text-start text-gray-500 mx-4">دیوار مشهد - نیازمندی‌ های رایگان، آگهی‌های خرید، فروش نو و دست دوم و کارکرده، استخدام و خدمات</h3>
             {postData.length ?
                 <section className="my-5 flex flex-row gap-y-4 flex-wrap">
                     {
                         postData.map((data, index) => {                             
                             return <Item
                                 key={index}
-                                hrefId={`/productDetail?id=${data._id}`}
+                                hrefId={`/home/productDetail?id=${data._id}`}
                                 name={data.title}
                                 price={data.price.toLocaleString('fa-IR')}
                                 dynamicFields={data.dynamicFields[0]?.data}

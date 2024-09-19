@@ -8,7 +8,7 @@ const Item = (props) => {
             <div className="flex w-full justify-between border-2 border-zinc-200 rounded-md p-4 shadow-md">
                 <div className="flex flex-col items-start justify-between py-2">
                     <div className="w-40 h-12 overflow-hidden">
-                    <h2 className="text-[16px] font-bold">{props.name}</h2>
+                        <h2 className="text-[16px] font-bold">{props.name}</h2>
                     </div>
                     <div className="flex flex-col gap-2">
                         <span>{props.dynamicFields}</span>
@@ -17,7 +17,9 @@ const Item = (props) => {
                     </div>
                 </div>
                 <div>
-                    <img className="w-[150px] h-[150px] rounded-md" width={150} height={150} src={`${props.image}`} alt="test" />
+                    <picture>
+                        <img className="w-[150px] h-[150px] rounded-md" width={150} height={150} src={`${props.image}`} alt="test" />
+                    </picture>
                     {/* <Image className="w-[150px] h-[150px] rounded-md" width={150} height={150} src={`https://divarapi.liara.run/${props.image}`} alt='img1' priority={true} /> */}
                 </div>
             </div>
