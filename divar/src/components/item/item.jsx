@@ -1,6 +1,7 @@
 // import Image from "next/image";
 // import img1 from '../../public/image/item/shoes.png'
 import Link from "next/link";
+import { PiCameraSlashLight } from "react-icons/pi";
 
 const Item = (props) => {
     return (
@@ -17,10 +18,16 @@ const Item = (props) => {
                     </div>
                 </div>
                 <div>
-                    <picture>
-                        <img className="w-[150px] h-[150px] rounded-md" width={150} height={150} src={`${props.image}`} alt="test" />
-                    </picture>
-                    {/* <Image className="w-[150px] h-[150px] rounded-md" width={150} height={150} src={`https://divarapi.liara.run/${props.image}`} alt='img1' priority={true} /> */}
+                    {
+                        props.imgLength != 0 ?
+                            <picture>
+                                <img className="w-[150px] h-[150px] rounded-md" width={150} height={150} src={`${props.image}`} alt="test" />
+                            </picture>
+                            :
+                            <div className="w-[150px] h-[150px] flex justify-center items-center">
+                                <PiCameraSlashLight className="w-[100px] h-[100px]" />
+                            </div>
+                    }
                 </div>
             </div>
         </Link>

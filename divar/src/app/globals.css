@@ -18,4 +18,9 @@ body {
 .sidbar_main::-webkit-scrollbar{
   width: 0;
 }
-.test{}
+.no-select {
+  user-select: none; /* برای مرورگرهای مدرن */
+  -moz-user-select: none; /* برای Firefox */
+  -webkit-user-select: none; /* برای Chrome و Safari */
+  -ms-user-select: none; /* برای IE و Edge */
+}

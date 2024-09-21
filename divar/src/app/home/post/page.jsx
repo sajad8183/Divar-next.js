@@ -20,7 +20,7 @@ const Post = async ({ searchParams }) => {
             {postData.length ?
                 <section className="my-5 flex flex-row gap-y-4 flex-wrap">
                     {
-                        postData.map((data, index) => {                             
+                        postData.map((data, index) => {                                                         
                             return <Item
                                 key={index}
                                 hrefId={`/home/productDetail?id=${data._id}`}
@@ -28,7 +28,8 @@ const Post = async ({ searchParams }) => {
                                 price={data.price.toLocaleString('fa-IR')}
                                 dynamicFields={data.dynamicFields[0]?.data}
                                 createTime={calcTime(data.createdAt)}
-                                image={data.pics.length ? `https://divarapi.liara.run/${data.pics[0].path}` : 'image/item/shoes.png'}
+                                imgLength = {data?.pics?.length}
+                                image={`https://divarapi.liara.run/${data.pics[0]?.path}`}
                             />
                         })
                     }
