@@ -1,6 +1,6 @@
 import Header from "@/components/header/header";
 import Sidbar from "@/components/sidebar/sidbar";
-import { getCityParams } from "./page";
+// import { AllSearchParams } from "./page";
 
 const Layout = ({ children }) => {
     
@@ -8,7 +8,7 @@ const Layout = ({ children }) => {
         <div>
             {/* <Header /> */}
             <div className="mt-8 flex flex-row">
-                <Sidbar cityUrl={getCityParams} />
+                <Sidbar />
                 {children}
             </div>
         </div>

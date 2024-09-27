@@ -22,10 +22,16 @@ const getPopularCity = async () => {
     return popularCityArr;
 }
 
-const getCityPost = async (cityId) =>{
-    const data = await fetch(`${staticUrl}post/?city=${cityId}`,{cache:"no-store"})
+const getCityPost = async (categoryId,cityId) =>{
+   // console.log(categoryID);
+    
+    // const data = categoryID != 'undefined' ? await fetch(`${staticUrl}post/${`?categoryId=${categoryID}`}&?city=${cityId}`,{cache:"no-store"})
+    // : await fetch(`${staticUrl}post/?city=${cityId}`,{cache:"no-store"})
+ //true   const data = await fetch(`${staticUrl}post/?city=${cityId}`,{cache:"no-store"})
+ const data = await fetch(`https://divarapi.liara.run/v1/post/?categoryId=${categoryId}&city=${cityId}`,{cache:"no-store"})
     return data.json();
 }
+
 
 const getSidebarData = async () =>{
     const data = await fetch(`${staticUrl}category`)

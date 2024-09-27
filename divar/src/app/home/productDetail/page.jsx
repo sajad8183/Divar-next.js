@@ -1,19 +1,10 @@
+import MapClient from "@/components/clientComponenta/mapClient";
 import ProductDetailClient from "@/components/productDetailClient/productDetailClient";
 import SwiperImg from "@/components/swiper/swiper";
 import { calcTime } from "@/funcs/funcs";
 import { getSinglePost } from "@/shared/sharedApi";
 import Link from "next/link";
 import { FaAngleLeft } from "react-icons/fa";
-
-
-// // Import Swiper React components
-// import { Swiper, SwiperSlide } from 'swiper/react';
-
-// // Import Swiper styles
-// import 'swiper/css';
-// import 'swiper/css/free-mode';
-// import 'swiper/css/navigation';
-// import 'swiper/css/thumbs';
 
 const ProductDetail = async ({ searchParams }) => {
     const getData = await getSinglePost(searchParams.id)
@@ -28,13 +19,13 @@ const ProductDetail = async ({ searchParams }) => {
             <div className="container mx-auto">
                 <section className="flex items-center justify-center  sm:text-sm text-[10px]">
                     <div className="flex items-center justify-center gap-4 md:mt-4 md:mb-8 md:p-4 mb-2 p-2 rounded-lg bg-zinc-100 font-bold">
-                        <Link href={`/home/post?city=${getData.post?.city?.id}/?categoryId=${breadcrumbsItem?.category?._id}`} className="flex items-center transition-all duration-300 hover:text-zinc-400">{breadcrumbsItem?.category?.title}
+                        <Link href={{ pathname: '/home/post', query: { city: getData.post?.city?.id , categoryId:breadcrumbsItem?.category?._id } }} className="flex items-center transition-all duration-300 hover:text-zinc-400">{breadcrumbsItem?.category?.title}
                             <FaAngleLeft className="mr-1" />
                         </Link>
-                        <Link href={`/home/post?city=${getData.post?.city?.id}/?categoryId=${breadcrumbsItem?.subCategory?._id}`} className="flex items-center transition-all duration-300 hover:text-zinc-400">{breadcrumbsItem?.subCategory?.title}
+                        <Link href={{ pathname: '/home/post', query: { city: getData.post?.city?.id , categoryId:breadcrumbsItem?.subCategory?._id } }} className="flex items-center transition-all duration-300 hover:text-zinc-400">{breadcrumbsItem?.subCategory?.title}
                             <FaAngleLeft className="mr-1" />
                         </Link>
-                        <Link href={`/home/post?city=${getData.post?.city?.id}/?categoryId=${breadcrumbsItem?.subSubCategory?._id}`} className="flex items-center transition-all duration-300 hover:text-zinc-400">{breadcrumbsItem?.subSubCategory?.title}
+                        <Link href={{ pathname: '/home/post', query: { city: getData.post?.city?.id , categoryId:breadcrumbsItem?.subSubCategory?._id }}} className="flex items-center transition-all duration-300 hover:text-zinc-400">{breadcrumbsItem?.subSubCategory?.title}
                             <FaAngleLeft className="mr-1" />
                         </Link>
                         <span className="sm:flex hidden items-center transition-all duration-300 text-zinc-400">{getData?.post?.title}</span>
@@ -125,15 +116,16 @@ const ProductDetail = async ({ searchParams }) => {
                     <div className="lg:w-2/6 sm:w-3/4 w-11/12 lg:order-2 order-1">
                         <div className="w-full">
                             <SwiperImg imgSRC={getData?.post?.pics}/>
-                            {/* <picture>
-                                <img className="w-full lg:h-[25rem] sm:h-[40rem] h-[18rem] object-cover rounded-md" src={`https://divarapi.liara.run/${getData?.post?.pics[0].path}`} alt="test" />
-                            </picture> */}
+
                             <div className="w-full">
                                 <div className="border-2 rounded-sm border-zinc-200 my-3">
                                     <textarea className="border-0 h-28 w-full p-3" name="" id="" placeholder="یادداشت شما..."></textarea>
                                 </div>
                                 <p>یادداشت تنها برای شما قابل دیدن است و پس از حذف آگهی، پاک خواهد شد.</p>
                             </div>
+
+                            {/* <MapClient/> */}
+                            
                         </div>
                     </div>
                 </div>

@@ -2,13 +2,13 @@ import Item from "@/components/item/item";
 import { calcTime } from "@/funcs/funcs";
 import { getCityPost } from "@/shared/sharedApi";
 
-export let getCityParams = ''
 
 const Post = async ({ searchParams }) => {
-
-    getCityParams = searchParams.city;
+   // console.log(searchParams.categoryId);
+    let getCatId ;
+    searchParams.categoryId == undefined ? getCatId='' : getCatId=searchParams.categoryId
     
-    let postData = await getCityPost(searchParams.city)
+    let postData = await getCityPost(getCatId,searchParams.city)
         .then(res => {
             const allData = res?.data?.posts;
             return allData;
@@ -20,15 +20,15 @@ const Post = async ({ searchParams }) => {
             {postData.length ?
                 <section className="my-5 flex flex-row gap-y-4 flex-wrap">
                     {
-                        postData.map((data, index) => {                                                         
+                        postData.map((data, index) => {
                             return <Item
                                 key={index}
-                                hrefId={`/home/productDetail?id=${data._id}`}
+                                hrefId={{ pathname: '/home/productDetail', query: { id: data._id } }}
                                 name={data.title}
                                 price={data.price.toLocaleString('fa-IR')}
                                 dynamicFields={data.dynamicFields[0]?.data}
                                 createTime={calcTime(data.createdAt)}
-                                imgLength = {data?.pics?.length}
+                                imgLength={data?.pics?.length}
                                 image={`https://divarapi.liara.run/${data.pics[0]?.path}`}
                             />
                         })
