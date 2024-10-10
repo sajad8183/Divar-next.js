@@ -1,12 +1,15 @@
+'use client'
 import Image from "next/image";
 import { IoLocationOutline } from "react-icons/io5";
-import { FaSearch, FaRegUser ,FaLayerGroup , FaChevronDown } from "react-icons/fa";
+import { FaSearch, FaRegUser, FaLayerGroup, FaChevronDown } from "react-icons/fa";
 import { IoChatbubbleOutline, IoChatbubbles } from "react-icons/io5";
 import { GrSupport } from "react-icons/gr";
 import { MdOutlineLanguage } from "react-icons/md";
 import { IoMdAddCircle } from "react-icons/io";
-
 import logo from "../../public/image/image.png"
+
+import HeaderSearch from "@/funcs/headerSearch";
+
 const Header = () => {
     return (
         <header className="border-b-2 border-zinc-200 fixed w-full bg-white top-0 z-50">
@@ -25,8 +28,7 @@ const Header = () => {
                                 <FaChevronDown />
                             </div>
                             <div className="flex items-center bg-zinc-200 rounded-md w-[80%] ">
-                                <input className="p-2 bg-transparent w-full outline-none" type="search" name="" id="" placeholder="جستجو در همه آگهی ها" />
-                                <FaSearch className="m-2 fill-zinc-400" />
+                                {<HeaderSearch/>}
                             </div>
                         </div>
                         <div>
@@ -58,14 +60,15 @@ const Header = () => {
             {/* for small size */}
             <section className="lg:hidden block bg-zinc-100 fixed top-0 w-full">
                 <div className="flex justify-between px-2 items-center border-zinc-300 rounded-sm border-2 m-2">
-                <div className="flex items-center w-full">
-                    <input className="p-2 bg-transparent w-full" type="search" name="" id="" placeholder="جستجو در همه آگهی ها" />
-                    <FaSearch className="m-2 fill-zinc-400" />
-                </div>
-                <button className="flex items-center px-2 border-r-2 border-zinc-300">
-                    مشهد
-                    <IoLocationOutline />
-                </button>
+                    <div className="flex items-center w-full">
+                        {/* <input className="p-2 bg-transparent w-full" type="search" name="" id="" placeholder="جستجو در همه آگهی ها" />
+                        <FaSearch className="m-2 fill-zinc-400" /> */}
+                        {<HeaderSearch/>}
+                    </div>
+                    <button className="flex items-center px-2 border-r-2 border-zinc-300">
+                        مشهد
+                        <IoLocationOutline />
+                    </button>
                 </div>
             </section>
             <nav className="fixed bottom-0 w-full py-2 lg:hidden block text-[12px] bg-zinc-100">

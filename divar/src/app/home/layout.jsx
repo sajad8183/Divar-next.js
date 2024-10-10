@@ -1,4 +1,4 @@
-const { default: Header } = require("@/components/header/header");
+import Header from "@/components/header/header";
 
 const LayOut = ({ children }) => {
     

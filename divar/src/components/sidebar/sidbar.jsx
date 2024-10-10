@@ -4,17 +4,19 @@ import { FaCar, FaChevronDown, FaTwitter, FaArrowRight } from "react-icons/fa";
 import { AiFillInstagram } from "react-icons/ai";
 import { SiAparat } from "react-icons/si";
 import { FaLinkedin } from "react-icons/fa6";
+import { BsThreeDotsVertical } from "react-icons/bs";
 import Image from "next/image";
 import img1 from '../../public/image/footerImg/image copy.png'
 import img2 from '../../public/image/footerImg/image.png'
 import img3 from '../../public/image/footerImg/New Project.png'
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
-import { useSearchParams } from "next/navigation";
-import { Accordion, AccordionItem } from "@nextui-org/accordion";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { CheckPicker } from 'rsuite';
 
 const Sidbar = () => {
-
+    const router = useRouter()
+    const pathname = usePathname()
     const searchParams = useSearchParams();
     const categoryID = searchParams.get('categoryId')
     const cityId = searchParams.get('city')
@@ -55,6 +57,30 @@ const Sidbar = () => {
             })
 
     }, [categoryID])
+
+    const [feildStatus, setFeildStatus] = useState(true)
+    const [priceFlag, setPriceFlag] = useState(true)
+
+    const removeQueryParam = (name, value) => {
+        const params = new URLSearchParams(searchParams)
+        params.delete(name, value)
+        router.replace(`${pathname}?${params.toString()}`)
+    };
+
+
+    const createQueryString = useCallback(
+        (name, value) => {
+            const params = new URLSearchParams(searchParams)
+            params.set(name, value)
+            return params.toString()
+        },
+        [searchParams]
+    )
+
+    const filterItemImg = () => {
+        searchParams.get('hasPhoto') == null ? router.push(pathname + '?' + createQueryString('hasPhoto', 'true'))
+            : removeQueryParam('hasPhoto', 'true')
+    }
 
     return (
         <div className=" basis-2/12 mx-12 mt-12 pl-3 lg:block hidden">
@@ -130,20 +156,13 @@ const Sidbar = () => {
                                         if (subCategory?._id == categoryID) {
                                             return (
                                                 subCategory?.filters.map((subFilter, index) => {
+                                                    const subFilterdata = subFilter?.options.map(
+                                                        item => ({ label: item, value: item })
+                                                    );
                                                     return (
-                                                        <Accordion  key={index}>
-                                                            <AccordionItem key={index} aria-label={subFilter.name} title={subFilter.name}>
-                                                                <ul>
-                                                                    {subFilter?.options.map((option, i) => {
-                                                                        return (
-                                                                            <li className="p-2 flex w-full items-center justify-between" key={i}>
-                                                                                <label className="w-full" htmlFor={i}>{option}</label>
-                                                                                <input type="checkbox" id={i} />
-                                                                            </li>)
-                                                                    })}
-                                                                </ul>
-                                                            </AccordionItem>
-                                                        </Accordion>
+                                                        <div className="my-2 border-b-2 border-zinc-200  rounded-lg hover:bg-zinc-50" key={index} >
+                                                            <CheckPicker data={subFilterdata} appearance="subtle" placeholder={subFilter.name} className="w-full" />
+                                                        </div>
                                                     )
                                                 })
                                             )
@@ -154,20 +173,13 @@ const Sidbar = () => {
                                                     return (
                                                         subSubCategory?.filters.map((subSubFilter, i) => {
                                                             if (subSubCategory._id == categoryID) {
+                                                                const subSubFilterdata = subSubFilter?.options.map(
+                                                                    item => ({ label: item, value: item })
+                                                                );
                                                                 return (
-                                                                    <Accordion key={i}>
-                                                                        <AccordionItem className="border-b-2 border-zinc-200  rounded-lg hover:bg-zinc-50 " key={i} aria-label={subSubFilter.name} title={subSubFilter.name}>
-                                                                            <ul className="max-h-[10rem] overflow-y-scroll dir_ltr sidbar_main">
-                                                                                {subSubFilter?.options.map((option, ic) => {
-                                                                                    return (
-                                                                                        <li className=" p-2 flex w-full items-center justify-between hover:bg-zinc-100" key={ic}>
-                                                                                            <label className="w-full" htmlFor={ic}>{option}</label>
-                                                                                            <input type="checkbox" id={ic} />
-                                                                                        </li>)
-                                                                                })}
-                                                                            </ul>
-                                                                        </AccordionItem>
-                                                                    </Accordion>
+                                                                    <div className="my-2 border-b-2 border-zinc-200  rounded-lg hover:bg-zinc-50" key={i} >
+                                                                        <CheckPicker data={subSubFilterdata} appearance="subtle" placeholder={subSubFilter.name} className="w-full" />
+                                                                    </div>
                                                                 )
                                                             }
                                                         })
@@ -187,14 +199,51 @@ const Sidbar = () => {
                         <FaChevronDown />
                         <span className="">محل</span>
                     </div>
-                    <div className="flex items-center gap-2 py-4 px-2 border-b-2 border-zinc-200  rounded-lg hover:bg-zinc-100 ">
-                        <FaChevronDown />
-                        <span className="">قیمت</span>
+
+                    <div className="border-b-2 border-zinc-200  rounded-lg">
+                        <div onClick={() => { setPriceFlag(!priceFlag) }} className="flex items-center gap-2 py-4 px-2  hover:bg-zinc-100 ">
+                            <FaChevronDown className={`${priceFlag ? 'rotate-180 ' : 'rotate-0'}`} />
+                            <span className="">قیمت</span>
+                        </div>
+                        <div className={`${priceFlag ? 'hidden ' : 'block'}`}>
+                            <div className="flex items-center justify-between gap-4 mb-3">
+                                <div className="flex flex-col items-center justify-center gap-4">
+                                    <label>حداقل</label>
+                                    <BsThreeDotsVertical />
+                                    <label>حداکثر</label>
+                                </div>
+                                <div className="flex flex-col items-center justify-between gap-3">
+                                    <input className="borderBox w-full p-2 outline-red-600" type="text" placeholder="مثلا 10,000,000 تومان" />
+                                    <input className="borderBox w-full p-2 outline-red-600" type="text" placeholder="مثلا 100,000,000 تومان" />
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div className="flex items-center gap-2 py-4 px-2 border-b-2 border-zinc-200  rounded-lg hover:bg-zinc-100 ">
-                        <FaChevronDown />
-                        <span className="">وضعیت آگهی</span>
+
+
+                    <div className="overflow-hidden no-select">
+                        <div onClick={() => { setFeildStatus(!feildStatus) }} className="flex items-center gap-2 py-4 px-2 border-b-2 border-zinc-200  rounded-lg hover:bg-zinc-100 ">
+                            <FaChevronDown className={`${feildStatus ? 'rotate-180 ' : 'rotate-0'}`} />
+                            <span className="">وضعیت آگهی</span>
+                        </div>
+                        <ul className={`${feildStatus ? 'hidden ' : 'block'}`}>
+                            <li className="p-2 flex w-full items-center justify-between">
+                                <label htmlFor="pictureToggle" className="w-full">عکس دار</label>
+                                <label className="inline-flex items-center cursor-pointer">
+                                    <input checked={searchParams.get('hasPhoto') == null ? false : true} onChange={() => { filterItemImg() }} type="checkbox" value="" className="sr-only peer" id="pictureToggle" />
+                                    <div className="relative w-9 h-5 bg-gray-200 peer-focus:outline-none  rounded-full peer dark:bg-zinc-300 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                </label>
+                            </li>
+                            <li className="p-2 flex w-full items-center justify-between">
+                                <label htmlFor="newPostToggle" className="w-full">فوری</label>
+                                <label className="inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" value="" className="sr-only peer" id="newPostToggle" />
+                                    <div className="relative w-9 h-5 bg-gray-200 peer-focus:outline-none  rounded-full peer dark:bg-zinc-300 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                </label>
+                            </li>
+                        </ul>
                     </div>
+
                 </div>
 
 

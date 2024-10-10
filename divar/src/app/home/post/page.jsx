@@ -3,21 +3,45 @@ import { calcTime } from "@/funcs/funcs";
 import { getCityPost } from "@/shared/sharedApi";
 
 
+
+
+
 const Post = async ({ searchParams }) => {
-   // console.log(searchParams.categoryId);
-    let getCatId ;
-    searchParams.categoryId == undefined ? getCatId='' : getCatId=searchParams.categoryId
-    
-    let postData = await getCityPost(getCatId,searchParams.city)
+
+    let getSearchValue = searchParams.search
+    let getCatId;
+    searchParams.categoryId == undefined ? getCatId = '' : getCatId = searchParams.categoryId
+
+    const doFilterSearch = (query,arr) => {
+        const filterPost = arr?.filter(data =>
+            data.title?.toLowerCase().includes(query) && query !== ''
+        );
+        return filterPost
+    }
+    const doFilterImg = (arr) => {
+        const filterPost = arr?.filter(data =>
+            data.pics.length           
+        );
+        return filterPost
+    }
+
+    let postData = await getCityPost(getCatId, searchParams.city)
         .then(res => {
             const allData = res?.data?.posts;
-            return allData;
+            if(searchParams.hasPhoto=='true'){
+                return doFilterImg(allData)
+            }
+            if(searchParams.search == undefined) {
+                return allData 
+            }else {
+               return doFilterSearch(getSearchValue,allData)
+            }
         })
 
     return (
         <div className="lg:basis-10/12 basis-full border-r-2 border-zinc-200 h-screen mt-12">
             <h3 className="lg:text-end text-start text-gray-500 mx-4">دیوار مشهد - نیازمندی‌ های رایگان، آگهی‌های خرید، فروش نو و دست دوم و کارکرده، استخدام و خدمات</h3>
-            {postData.length ?
+            {postData?.length ?
                 <section className="my-5 flex flex-row gap-y-4 flex-wrap">
                     {
                         postData.map((data, index) => {

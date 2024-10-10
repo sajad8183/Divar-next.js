@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "rsuite/dist/rsuite.css";
+
+
 @font-face {
   font-family: "iranSans_light";
   src: url("../public/fonts/IRANSans/IRANSans_Light.ttf");
@@ -31,11 +34,35 @@ body {
   -webkit-user-select: none; /* برای Chrome و Safari */
   -ms-user-select: none; /* برای IE و Edge */
 }
-
+a:hover{
+  text-decoration: none;
+  color: unset;
+}
 .dir_ltr{
   direction: ltr;
 }
 
 ul,li{
   list-style-type: none;
+}
+
+.rs-picker-popup{
+  position: fixed;
+  direction: rtl;
+}
+.rs-checkbox-checker label{
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+}
+.rs-checkbox-label{
+  width: 100%;
+  text-align: right;
+}
+.feildStatusBoxStyle{
+  display: none;
+}
+.borderBox{
+  border: 2px solid rgb(228 228 231);
+  border-radius: 8px;
 }
